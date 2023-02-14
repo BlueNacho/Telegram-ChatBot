@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.4"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Proyecto Programación 2: # Desafíos que se nos presentaron en esta entrega</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Proyecto Programación 2<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Chatbot Telegram Proyecto</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.9.4 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Buscar','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Buscar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div><div class="header">
+  <div class="headertitle"><div class="title"># Desafíos que se nos presentaron en esta entrega </div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><p >Como equipo se nos plantearon varios desafíos para esta entrega. A la hora de empezar a programar las clases que habiamos diseñado para la primera entrega, nos encontramos con algunos problemas de lógica que tuvimos que repensar para lograr resolverlos, y otras clases tuvieron que ser rediseñadas para perfeccionarlas con las correcciones realizadas por los docentes. Otro gran desafío que se nos planteo fue distribuir la cantidad de tarea para que quede parejo y acorde con las virtudes de cada integrante al momento de programar.</p>
+<h1><a class="anchor" id="autotoc_md0"></a>
+# Principios</h1>
+<h5>CREATOR</h5>
+<p >El principio se ve reflejado a la hora de crear nuestras clases. En la clase gestión contrato, a la hora de utilizar el método CrearContrato(), adentro del mismo crea un objeto de tipo contrato. Otro ejemplo de este principio reflejado en nuestras clases es en el método OfrecerServicio() del trabajado. El trabajador tiene un método por el cual puede ofrecer un servicio, y este se encarga de crear un objeto de tipo servicio. GestionUsuario presenta un método para crear empleadores llamado CrearEmpleador() que se encarga de crear un objeto de tipo Empleador con los datos pasados por parametro.</p>
+<h5>SRP y EXPERT</h5>
+<p >La lógica fue diseñada en base a que las clases no tuvieran más de una responsabilidad. El crear varias clases nos permitió delegar responsabilidades y que no queden sobrecargadas de responsabilidades de las cuales no deben hacerse responsables. Hay varios ejemplos a lo largo de la lógica utilizada, uno es la clase CatalogoCategoría, que se encarga de verificar que exista cierta categoría dentro de las existentes, o de lo contrario, tambien se encarga de añadir categorías al catálogo. Estas responsabilidades no pueden pertenecer al admin, a pesar de que el es el encargado de controlar que categorías se deben añadir. Otro ejemplo es el de catologo servicio, el cual se encarga de agregar o borrar servicios de la lista de servicios disponibles. La clase servicio no puede tener la responsabilidad de añadirse a si misma a una lista de servicios disponibles, asimismo, servicio unicamente presenta un constructor, el cual es utilizado en Trabajador para cuando quiere ofrecer un servicio. Y el último Catalogo que creamos fue Catálogo Contrato. El cual se encarga de comprobar, y cambiar estados de los contratos. Estos Catalalogos son los encargados de realizar dichas acciones previamente debido a que son los que conocen la información correspondiente para llevarlas a cabo. Previo a crearlos, habíamos analizado dejarle las responsabilidades previamente mencionadas a las clases Servicio, Contrato, Categoría fue cambiando de nombre. Pero pensandolo bien, resolvimos en conjunto que las responsabilidades de conocer dicho estado no debía ser de ellos, no nos hacía sentido el hecho de que un contrato deba conocer en que estado se encuentra, pero si que deje que su estado se conozca mediante un método de otra clase.</p>
+<p >Siguiendo con SRP, tenemos las clases: *Estado : Encargada de contener estados, que utilizaremos en contratos para definir en que estado se encuentra cada uno .</p>
+<p >*IDGenerator : Encargada de generar ID´s para los servicios que ofrecen los trabajadores. Para los trabajadores no era necesario crear ID´s personales porque no las proporciona telegram.</p>
+<h5>ISP</h5>
+<p >Interface Segregation Principle es un principio que nos permite delimitar que usuarios pueden ser calificados. Si no todo iba a poder ser calificable, sin la interfaz ICalificable esto no podría haberse solucionado. Esta interfaz contiene una lista de calificaciones, la cual utilizamos para calcular la calificación promediada gracias a todos los elementos que se encuentran en ella.</p>
+<h1><a class="anchor" id="autotoc_md1"></a>
+# Patrones de diseño</h1>
+<h5>Singleton</h5>
+<p >Es un patron de diseño que nos permite crear una única instancia de una clase. En nuestro programa tenemos casos donde debemos tener una única lista de una clase para toda la lógica y que esta no se vea afectada. Para utilizarlas, utilizamos instancias del singleton de la clase que necesitamos.</p>
+<h5>Chain of responsability</h5>
+<p >Para los handlers, tendremos una solicitud de mensaje donde se analizara el mensaje emitido por el usuario. Según lo que recibe, el mensaje pasará por "la cadena" donde chequeará en "cada eslabon" si corresponde a el o no el dar una respuesta ese mensaje. Por ejemplo, en el menú inicial o principal tenemos varias opciones, y, para seleccionar una de ellas, el usuario debe ingresar mediante un mensaje la opción que desee ejecutar. El programa va a identificar el mensaje que fue emitido, y chequeará en los handlers a cual le corresponde ese mensaje.</p>
+<hr  />
+<p> Contrato, CatlogoContrato, GestionUsuario -Sofía Guerrico</p>
+<p >Empleador, Trabajador, UsuarioComun, Usuario, Calificacion -Ignacio Berra</p>
+<p >Administrador -Fernando Sánchez</p>
+<p >CatalogoServicio, CatalogoCategoria, FiltroBusqueda, Notificaciones -Ignacio Tachini</p>
+<p >Vale aclarar que por más que las clases se vean asignadas de tal modo, aun así cada integrante interactuó con otras más ya que era necesaria su manipulación para hacer funcionar sus respectivas clases</p>
+<h1><a class="anchor" id="autotoc_md3"></a>
+# Aclaraciones</h1>
+<p >Para que el programa funcione correctamente, se necesita tener el PII_LocationApiClient una carpeta anterior a la del proyecto, es decir como una carpeta hermana. </p>
+</div></div><!-- contents -->
+</div><!-- PageDoc -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generado por&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4
+</small></address>
+</body>
+</html>

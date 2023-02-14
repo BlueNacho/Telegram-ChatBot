@@ -1,0 +1,1504 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Library</name>
+    </assembly>
+    <members>
+        <member name="T:Ucu.Poo.TelegramBot.AceptarContratoHandler">
+            <summary>
+            Un "handler" del patrón Chain of Responsibility que implementa el comando "distancia".
+            </summary>
+        </member>
+        <member name="P:Ucu.Poo.TelegramBot.AceptarContratoHandler.State">
+            <summary>
+            El estado del comando.
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.AceptarContratoHandler.#ctor(Ucu.Poo.TelegramBot.BaseHandler)">
+            <summary>
+            Inicializa una nueva instancia de la clase <see cref="T:Ucu.Poo.TelegramBot.CrearCategoriaHandler"/>.
+            </summary>
+            <param name="next">El próximo "handler".</param>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.AceptarContratoHandler.CanHandle(Telegram.Bot.Types.Message)">
+            <summary>
+            Determina si este "handler" puede procesar el mensaje. En el primer mensaje cuando
+            <see cref="P:Ucu.Poo.TelegramBot.AceptarContratoHandler.State"/> es <see cref="F:Ucu.Poo.TelegramBot.AceptarContratoHandler.AceptarContratoState.Start"/> usa
+            <see cref="P:Ucu.Poo.TelegramBot.BaseHandler.Keywords"/> para buscar el texto en el mensaje ignorando mayúsculas y minúsculas. En
+            caso contrario eso implica que los sucesivos mensajes son parámetros del comando y se procesan siempre.
+            </summary>
+            <param name="message">El mensaje a procesar.</param>
+            <returns>true si el mensaje puede ser pocesado; false en caso contrario.</returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.AceptarContratoHandler.InternalHandle(Telegram.Bot.Types.Message,System.String@)">
+            <summary>
+            Procesa todos los mensajes y retorna true siempre.
+            </summary>
+            <param name="message">El mensaje a procesar.</param>
+            <param name="response">La respuesta al mensaje procesado indicando que el mensaje no pudo se procesado.</param>
+            <returns>true si el mensaje fue procesado; false en caso contrario.</returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.AceptarContratoHandler.InternalCancel">
+            <summary>
+            Retorna este "handler" al estado inicial.
+            </summary>
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.AceptarContratoHandler.AceptarContratoState">
+            <summary>
+            Indica los diferentes estados que puede tener el comando DistanceHandler.
+            - Start: El estado inicial del comando. En este estado el comando pide la dirección de origen y pasa al
+            siguiente estado.
+            - FromAddressPrompt: Luego de pedir la dirección de origen. En este estado el comando pide la dirección de
+            destino y pasa al siguiente estado.
+            - ToAddressPrompt: Luego de pedir la dirección de destino. En este estado el comando calcula la distancia
+            y vuelve al estado Start.
+            </summary>
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.AceptarContratoHandler.AceptarContratoState.Start">
+            Start
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.AceptarContratoHandler.AceptarContratoState.Evaluar">
+            Evaluar
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.AceptarContratoHandler.AceptarContratoState.Contratar">
+            EvaluarPrompt
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.BaseHandler">
+            <summary>
+            Clase base para implementar el patrón Chain of Responsibility. En ese patrón se pasa un mensaje a través de una
+            cadena de "handlers" que pueden procesar o no el mensaje. Cada "handler" decide si procesa el mensaje, o si se lo
+            pasa al siguiente. Esta clase base implmementa la responsabilidad de recibir el mensaje y pasarlo al siguiente
+            "handler" en caso que el mensaje no sea procesado. La responsabilidad de decidir si el mensaje se procesa o no, y
+            de procesarlo, se delega a las clases sucesoras de esta clase base.
+            </summary>
+        </member>
+        <member name="P:Ucu.Poo.TelegramBot.BaseHandler.Next">
+            <summary>
+            Obtiene el próximo "handler".
+            </summary>
+            <value>El "handler" que será invocado si este "handler" no procesa el mensaje.</value>
+        </member>
+        <member name="P:Ucu.Poo.TelegramBot.BaseHandler.Keywords">
+            <summary>
+            Obtiene o asigna el conjunto de palabras clave que este "handler" puede procesar.
+            </summary>
+            <value>Un array de palabras clave.</value>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.BaseHandler.#ctor(Ucu.Poo.TelegramBot.IHandler)">
+            <summary>
+            Inicializa una nueva instancia de la clase <see cref="T:Ucu.Poo.TelegramBot.BaseHandler"/>.
+            </summary>
+            <param name="next">El próximo "handler".</param>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.BaseHandler.#ctor(System.String[],Ucu.Poo.TelegramBot.IHandler)">
+            <summary>
+            Inicializa una nueva instancia de la clase <see cref="T:Ucu.Poo.TelegramBot.BaseHandler"/> con una lista de comandos.
+            </summary>
+            <param name="keywords">La lista de comandos.</param>
+            <param name="next">El próximo "handler".</param>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.BaseHandler.InternalHandle(Telegram.Bot.Types.Message,System.String@)">
+            <summary>
+            Este método debe ser sobreescrito por las clases sucesores. La clase sucesora procesa el mensaje y retorna
+            la respuesta al mensaje.
+            </summary>
+            <param name="message">El mensaje a procesar.</param>
+            <param name="responder">La respuesta al mensaje procesado.</param>
+            <returns>true si el mensaje fue procesado; false en caso contrario</returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.BaseHandler.InternalCancel">
+            <summary>
+            Este método puede ser sobreescrito en las clases sucesores que procesan varios mensajes cambiando de estado
+            entre mensajes deben sobreescribir este método para volver al estado inicial. En la clase base no hace nada.
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.BaseHandler.CanHandle(Telegram.Bot.Types.Message)">
+            <summary>
+            Determina si este "handler" puede procesar el mensaje. En la clase base se utiliza el array
+            <see cref="P:Ucu.Poo.TelegramBot.BaseHandler.Keywords"/> para buscar el texto en el mensaje ignorando mayúsculas y minúsculas. Las
+            clases sucesores pueden sobreescribir este método para proveer otro mecanismo para determina si procesan o no
+            un mensaje.
+            </summary>
+            <param name="message">El mensaje a procesar.</param>
+            <returns>true si el mensaje puede ser pocesado; false en caso contrario.</returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.BaseHandler.Handle(Telegram.Bot.Types.Message,System.String@)">
+            <summary>
+            Procesa el mensaje o la pasa al siguiente "handler" si existe.
+            </summary>
+            <param name="message">El mensaje a procesar.</param>
+            <param name="response">La respuesta al mensaje procesado.</param>
+            <returns>El "handler" que procesó el mensaje si el mensaje fue procesado; null en caso contrario.</returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.BaseHandler.Cancel">
+            <summary>
+            Retorna este "handler" al estado inicial. En los "handler" sin estado no hace nada. Los "handlers" que
+            procesan varios mensajes cambiando de estado entre mensajes deben sobreescribir este método para volver al
+            estado inicial.
+            </summary>
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.BorrarServicioHandler">
+            <summary>
+            Un "handler" del patrón Chain of Responsibility que implementa el comando borrar servicio.
+            </summary>
+        </member>
+        <member name="P:Ucu.Poo.TelegramBot.BorrarServicioHandler.State">
+            <summary>
+            El estado del comando.
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.BorrarServicioHandler.#ctor(Ucu.Poo.TelegramBot.BaseHandler)">
+            <summary>
+            Inicializa una nueva instancia de la clase <see cref="T:Ucu.Poo.TelegramBot.CrearCategoriaHandler"/>.
+            </summary>
+            <param name="next">El próximo "handler".</param>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.BorrarServicioHandler.CanHandle(Telegram.Bot.Types.Message)">
+            <summary>
+            Determina si este "handler" puede procesar el mensaje. En el primer mensaje cuando
+            <see cref="P:Ucu.Poo.TelegramBot.BorrarServicioHandler.State"/> es <see cref="F:Ucu.Poo.TelegramBot.BorrarServicioHandler.BorrarServicioState.Start"/> usa
+            <see cref="P:Ucu.Poo.TelegramBot.BaseHandler.Keywords"/> para buscar el texto en el mensaje ignorando mayúsculas y minúsculas. En
+            caso contrario eso implica que los sucesivos mensajes son parámetros del comando y se procesan siempre.
+            </summary>
+            <param name="message">El mensaje a procesar.</param>
+            <returns>true si el mensaje puede ser pocesado; false en caso contrario.</returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.BorrarServicioHandler.InternalHandle(Telegram.Bot.Types.Message,System.String@)">
+            <summary>
+            Procesa todos los mensajes y retorna true siempre.
+            </summary>
+            <param name="message">El mensaje a procesar.</param>
+            <param name="response">La respuesta al mensaje procesado indicando que el mensaje no pudo se procesado.</param>
+            <returns>true si el mensaje fue procesado; false en caso contrario.</returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.BorrarServicioHandler.InternalCancel">
+            <summary>
+            Retorna este "handler" al estado inicial.
+            </summary>
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.BorrarServicioHandler.BorrarServicioState">
+            <summary>
+            Estados de Borrar Servicio
+            </summary>
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.BorrarServicioHandler.BorrarServicioState.Start">
+            Start
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.BorrarServicioHandler.BorrarServicioState.Checking">
+            Checking
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.BuscarOfertaHandler">
+            <summary>
+            Un "handler" del patrón Chain of Responsibility que implementa el comando buscar oferta.
+            </summary>
+        </member>
+        <member name="P:Ucu.Poo.TelegramBot.BuscarOfertaHandler.State">
+            <summary>
+            El estado del comando.
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.BuscarOfertaHandler.#ctor(Ucu.Poo.TelegramBot.BaseHandler)">
+            <summary>
+            Inicializa una nueva instancia de la clase <see cref="T:Ucu.Poo.TelegramBot.BuscarOfertaHandler"/>.
+            </summary>
+            <param name="next">El próximo "handler".</param>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.BuscarOfertaHandler.CanHandle(Telegram.Bot.Types.Message)">
+            <summary>
+            Determina si este "handler" puede procesar el mensaje. En el primer mensaje cuando
+            <see cref="P:Ucu.Poo.TelegramBot.BuscarOfertaHandler.State"/> es <see cref="F:Ucu.Poo.TelegramBot.BuscarOfertaHandler.BuscarOfertaState.Start"/> usa
+            <see cref="P:Ucu.Poo.TelegramBot.BaseHandler.Keywords"/> para buscar el texto en el mensaje ignorando mayúsculas y minúsculas. En
+            caso contrario eso implica que los sucesivos mensajes son parámetros del comando y se procesan siempre.
+            </summary>
+            <param name="message">El mensaje a procesar.</param>
+            <returns>true si el mensaje puede ser pocesado; false en caso contrario.</returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.BuscarOfertaHandler.InternalHandle(Telegram.Bot.Types.Message,System.String@)">
+            <summary>
+            Procesa todos los mensajes y retorna true siempre.
+            </summary>
+            <param name="message">El mensaje a procesar.</param>
+            <param name="response">La respuesta al mensaje procesado indicando que el mensaje no pudo se procesado.</param>
+            <returns>true si el mensaje fue procesado; false en caso contrario.</returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.BuscarOfertaHandler.InternalCancel">
+            <summary>
+            Retorna este "handler" al estado inicial.
+            </summary>
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.BuscarOfertaHandler.BuscarOfertaState">
+            <summary>
+            Estados de Buscar Oferta
+            </summary>
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.BuscarOfertaHandler.BuscarOfertaState.Start">
+            Start
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.BuscarOfertaHandler.BuscarOfertaState.EvaluarPrompt">
+            EvaluarPrompt
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.BuscarOfertaHandler.BuscarOfertaState.FiltroCategoriaPrompt">
+            FiltroCategoriaPrompt
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.CalificarTrabajadorHandler">
+            <summary>
+            Un "handler" del patrón Chain of Responsibility que implementa el comando calificar trabajador.
+            </summary>
+        </member>
+        <member name="P:Ucu.Poo.TelegramBot.CalificarTrabajadorHandler.State">
+            <summary>
+            El estado del comando.
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.CalificarTrabajadorHandler.#ctor(Ucu.Poo.TelegramBot.BaseHandler)">
+            <summary>
+            Esta clase procesa el mensaje "Calificar trabajador".
+            </summary>
+            <param name="next">El próximo "handler".</param>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.CalificarTrabajadorHandler.InternalHandle(Telegram.Bot.Types.Message,System.String@)">
+            <summary>
+            Procesa todos los mensajes y retorna true siempre.
+            </summary>
+            <param name="message"></param>
+            <param name="response"></param>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.CalificarTrabajadorHandler.InternalCancel">
+            <summary>
+            Retorna este "handler" al estado inicial.
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.CalificarTrabajadorHandler.CanHandle(Telegram.Bot.Types.Message)">
+            <summary>
+            Chequea que este handler pueda responder a este mensaje.
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.CalificarTrabajadorHandler.CalificarTrabajadorState">
+            <summary>
+            Estados de Calificar Trabajador
+            </summary>
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.CalificarTrabajadorHandler.CalificarTrabajadorState.Start">
+            Start
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.CalificarTrabajadorHandler.CalificarTrabajadorState.SeleccionarContrato">
+            SeleccionarContrato
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.CrearCategoriaHandler">
+            <summary>
+            Un "handler" del patrón Chain of Responsibility que implementa el comando para crear una categoria.
+            </summary>
+        </member>
+        <member name="P:Ucu.Poo.TelegramBot.CrearCategoriaHandler.State">
+            <summary>
+            El estado del comando.
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.CrearCategoriaHandler.#ctor(Ucu.Poo.TelegramBot.BaseHandler)">
+            <summary>
+            Esta clase procesa el mensaje "Crear categoria".
+            </summary>
+            <param name="next">El próximo "handler".</param>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.CrearCategoriaHandler.CanHandle(Telegram.Bot.Types.Message)">
+            <summary>
+            Determina si este "handler" puede procesar el mensaje. En el primer mensaje cuando
+            <see cref="P:Ucu.Poo.TelegramBot.CrearCategoriaHandler.State"/> es <see cref="F:Ucu.Poo.TelegramBot.CrearCategoriaHandler.CrearCategoriaState.Start"/> usa
+            <see cref="P:Ucu.Poo.TelegramBot.BaseHandler.Keywords"/> para buscar el texto en el mensaje ignorando mayúsculas y minúsculas. En
+            caso contrario eso implica que los sucesivos mensajes son parámetros del comando y se procesan siempre.
+            </summary>
+            <param name="message">El mensaje a procesar.</param>
+            <returns>true si el mensaje puede ser pocesado; false en caso contrario.</returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.CrearCategoriaHandler.InternalHandle(Telegram.Bot.Types.Message,System.String@)">
+            <summary>
+            Procesa el mensaje o comando "Crear categoria".
+            /// </summary>
+            <param name="message">El mensaje a procesar.</param>
+            <param name="response">La respuesta al mensaje procesado.</param>
+            <returns>true si el mensaje fue procesado; false en caso contrario.</returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.CrearCategoriaHandler.InternalCancel">
+            <summary>
+            Retorna este "handler" al estado inicial.
+            </summary>
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.CrearCategoriaHandler.CrearCategoriaState">
+            <summary>
+            Estados del handler
+            </summary>
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.CrearCategoriaHandler.CrearCategoriaState.Start">
+            Start
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.CrearCategoriaHandler.CrearCategoriaState.Checking">
+            Checking
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.CrearContratoHandler">
+            <summary>
+            Un "handler" del patrón Chain of Responsibility que implementa el comando "distancia".
+            </summary>
+        </member>
+        <member name="P:Ucu.Poo.TelegramBot.CrearContratoHandler.State">
+            <summary>
+            El estado del comando.
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.CrearContratoHandler.#ctor(Ucu.Poo.TelegramBot.BaseHandler)">
+            <summary>
+            Inicializa una nueva instancia de la clase <see cref="T:Ucu.Poo.TelegramBot.CrearCategoriaHandler"/>.
+            </summary>
+            <param name="next">El próximo "handler".</param>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.CrearContratoHandler.CanHandle(Telegram.Bot.Types.Message)">
+            <summary>
+            Determina si este "handler" puede procesar el mensaje. En el primer mensaje cuando
+            <see cref="P:Ucu.Poo.TelegramBot.CrearContratoHandler.State"/> es <see cref="F:Ucu.Poo.TelegramBot.CrearContratoHandler.CrearContratoState.Start"/> usa
+            <see cref="P:Ucu.Poo.TelegramBot.BaseHandler.Keywords"/> para buscar el texto en el mensaje ignorando mayúsculas y minúsculas. En
+            caso contrario eso implica que los sucesivos mensajes son parámetros del comando y se procesan siempre.
+            </summary>
+            <param name="message">El mensaje a procesar.</param>
+            <returns>true si el mensaje puede ser pocesado; false en caso contrario.</returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.CrearContratoHandler.InternalHandle(Telegram.Bot.Types.Message,System.String@)">
+            <summary>
+            Procesa todos los mensajes y retorna true siempre.
+            </summary>
+            <param name="message">El mensaje a procesar.</param>
+            <param name="response">La respuesta al mensaje procesado indicando que el mensaje no pudo se procesado.</param>
+            <returns>true si el mensaje fue procesado; false en caso contrario.</returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.CrearContratoHandler.InternalCancel">
+            <summary>
+            Retorna este "handler" al estado inicial.
+            </summary>
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.CrearContratoHandler.CrearContratoState">
+            <summary>
+            Indica los diferentes estados que puede tener el comando DistanceHandler.
+            - Start: El estado inicial del comando. En este estado el comando pide la dirección de origen y pasa al
+            siguiente estado.
+            - FromAddressPrompt: Luego de pedir la dirección de origen. En este estado el comando pide la dirección de
+            destino y pasa al siguiente estado.
+            - ToAddressPrompt: Luego de pedir la dirección de destino. En este estado el comando calcula la distancia
+            y vuelve al estado Start.
+            </summary>
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.CrearContratoHandler.CrearContratoState.Start">
+            Start
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.CrearContratoHandler.CrearContratoState.Contratar">
+            EvaluarPrompt
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.FinalizarContratoHandler">
+            <summary>
+            Un "handler" del patrón Chain of Responsibility que implementa el comando "distancia".
+            </summary>
+        </member>
+        <member name="P:Ucu.Poo.TelegramBot.FinalizarContratoHandler.State">
+            <summary>
+            El estado del comando.
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.FinalizarContratoHandler.#ctor(Ucu.Poo.TelegramBot.BaseHandler)">
+            <summary>
+            Inicializa una nueva instancia de la clase <see cref="T:Ucu.Poo.TelegramBot.CrearCategoriaHandler"/>.
+            </summary>
+            <param name="next">El próximo "handler".</param>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.FinalizarContratoHandler.CanHandle(Telegram.Bot.Types.Message)">
+            <summary>
+            Determina si este "handler" puede procesar el mensaje. En el primer mensaje cuando
+            <see cref="P:Ucu.Poo.TelegramBot.FinalizarContratoHandler.State"/> es <see cref="F:Ucu.Poo.TelegramBot.FinalizarContratoHandler.FinalizarContratoState.Start"/> usa
+            <see cref="P:Ucu.Poo.TelegramBot.BaseHandler.Keywords"/> para buscar el texto en el mensaje ignorando mayúsculas y minúsculas. En
+            caso contrario eso implica que los sucesivos mensajes son parámetros del comando y se procesan siempre.
+            </summary>
+            <param name="message">El mensaje a procesar.</param>
+            <returns>true si el mensaje puede ser pocesado; false en caso contrario.</returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.FinalizarContratoHandler.InternalHandle(Telegram.Bot.Types.Message,System.String@)">
+            <summary>
+            Procesa todos los mensajes y retorna true siempre.
+            </summary>
+            <param name="message">El mensaje a procesar.</param>
+            <param name="response">La respuesta al mensaje procesado indicando que el mensaje no pudo se procesado.</param>
+            <returns>true si el mensaje fue procesado; false en caso contrario.</returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.FinalizarContratoHandler.InternalCancel">
+            <summary>
+            Retorna este "handler" al estado inicial.
+            </summary>
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.FinalizarContratoHandler.FinalizarContratoState">
+            <summary>
+            Indica los diferentes estados que puede tener el comando DistanceHandler.
+            - Start: El estado inicial del comando. En este estado el comando pide la dirección de origen y pasa al
+            siguiente estado.
+            - FromAddressPrompt: Luego de pedir la dirección de origen. En este estado el comando pide la dirección de
+            destino y pasa al siguiente estado.
+            - ToAddressPrompt: Luego de pedir la dirección de destino. En este estado el comando calcula la distancia
+            y vuelve al estado Start.
+            </summary>
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.FinalizarContratoHandler.FinalizarContratoState.Start">
+            Start
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.FinalizarContratoHandler.FinalizarContratoState.Contratar">
+            EvaluarPrompt
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.GestionContratosHandler">
+            <summary>
+            Un "handler" del patrón Chain of Responsibility que implementa el comando "distancia".
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.GestionContratosHandler.#ctor(Ucu.Poo.TelegramBot.BaseHandler)">
+            <summary>
+            
+            </summary>
+            <param name="next"></param>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.GestionContratosHandler.InternalHandle(Telegram.Bot.Types.Message,System.String@)">
+            <summary>
+            Procesa todos los mensajes y retorna true siempre.
+            </summary>
+            <param name="message">El mensaje a procesar.</param>
+            <param name="response">La respuesta al mensaje procesado indicando que el mensaje no pudo se procesado.</param>
+            <returns>true si el mensaje fue procesado; false en caso contrario.</returns>
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.HelloHandler">
+            <summary>
+            Un "handler" del patrón Chain of Responsibility que implementa el comando "hola".
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.HelloHandler.#ctor(Ucu.Poo.TelegramBot.BaseHandler)">
+            <summary>
+            Inicializa una nueva instancia de la clase <see cref="T:Ucu.Poo.TelegramBot.HelloHandler"/>. Esta clase procesa el mensaje "hola".
+            </summary>
+            <param name="next">El próximo "handler".</param>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.HelloHandler.InternalHandle(Telegram.Bot.Types.Message,System.String@)">
+            <summary>
+            Procesa el mensaje "hola" y retorna true; retorna false en caso contrario.
+            </summary>
+            <param name="message">El mensaje a procesar.</param>
+            <param name="response">La respuesta al mensaje procesado.</param>
+            <returns>true si el mensaje fue procesado; false en caso contrario.</returns>
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.IHandler">
+            <summary>
+            Interfaz para implementar el patrón Chain of Responsibility. En ese patrón se pasa un mensaje a través de una
+            cadena de "handlers" que pueden procesar o no el mensaje. Cada "handler" decide si procesa el mensaje, o si se lo
+            pasa al siguiente. Esta interfaz define un atributo para definir el próximo "handler" y una una operación para
+            recibir el mensaje y pasarlo al siguiente "handler" en caso que el mensaje no sea procesado. La responsabilidad de
+            decidir si el mensaje se procesa o no, y de procesarlo, se realiza en las clases que implementan esta interfaz.
+            </summary>
+            <remarks>
+            La interfaz se crea en función del principio de inversión de dependencias, para que los clientes de la cadena de
+            responsabilidad, que pueden ser concretos, no dependan de una clase "handler" que potencialmente es abstracta.
+            </remarks>
+        </member>
+        <member name="P:Ucu.Poo.TelegramBot.IHandler.Next">
+            <summary>
+            Obtiene el próximo "handler".
+            </summary>
+            <value>El "handler" que será invocado si este "handler" no procesa el mensaje.</value>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.IHandler.Handle(Telegram.Bot.Types.Message,System.String@)">
+            <summary>
+            Procesa el mensaje o la pasa al siguiente "handler" si existe.
+            </summary>
+            <param name="message">El mensaje a procesar.</param>
+            <param name="response">La respuesta al mensaje procesado.</param>
+            <returns>El "handler" que procesó el mensaje si el mensaje fue procesado; null en caso contrario.</returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.IHandler.Cancel">
+            <summary>
+            Retorna este "handler" al estado inicial y cancela el próximo "handler" si existe. Es utilizado para que los
+            "handlers" que procesan varios mensajes cambiando de estado entre mensajes puedan volver al estado inicial en
+            caso de error por ejemplo.
+            </summary>
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.MenuPrincipalHandler">
+            <summary>
+            Un "handler" del patrón Chain of Responsibility que implementa el comando "Menu".
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.MenuPrincipalHandler.#ctor(Ucu.Poo.TelegramBot.BaseHandler)">
+            <summary>
+            Inicializa una nueva instancia de la clase <see cref="T:Ucu.Poo.TelegramBot.MenuPrincipalHandler"/>.
+            </summary>
+            <param name="next">El próximo "handler".</param>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.MenuPrincipalHandler.InternalHandle(Telegram.Bot.Types.Message,System.String@)">
+            <summary>
+            El Handler despliega todos los menu según el tipo de usuario que es. 
+            </summary>
+            <param name="message"></param>
+            <param name="response"></param>
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.NotificacionesHandler">
+            <summary>
+            Un "handler" del patrón Chain of Responsibility que implementa el comando necesario para conocer las notificaciones del usuario.
+            </summary>
+        </member>
+        <member name="P:Ucu.Poo.TelegramBot.NotificacionesHandler.State">
+            <summary>
+            El estado del comando.
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.NotificacionesHandler.#ctor(Ucu.Poo.TelegramBot.BaseHandler)">
+            <summary>
+            Esta clase procesa el mensaje "Ver notificaciones".
+            </summary>
+            <param name="next">El próximo "handler".</param>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.NotificacionesHandler.CanHandle(Telegram.Bot.Types.Message)">
+            <summary>
+             Procesa si puede responder a ese mensaje.
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.NotificacionesHandler.InternalHandle(Telegram.Bot.Types.Message,System.String@)">
+            <summary>
+            El handler despliega las notificaciones del trabajador. En caso de no tener, le avisa al usuario que no tiene notificaciones.
+            </summary>
+            <param name="message"></param>
+            <param name="response"></param>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.NotificacionesHandler.InternalCancel">
+            <summary>
+            Retorna este "handler" al estado inicial.
+            </summary>
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.NotificacionesHandler.NotificacionesState">
+            <summary>
+            Posibles estados del Handler.
+            </summary>
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.NotificacionesHandler.NotificacionesState.Start">
+            Estado Inicial
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.NotificacionesHandler.NotificacionesState.Completed">
+            Estado completado
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.OfrecerServicioHandler">
+            <summary>
+            Un "handler" del patrón Chain of Responsibility que implementa el comando para ofrecer servicio..
+            </summary>
+        </member>
+        <member name="P:Ucu.Poo.TelegramBot.OfrecerServicioHandler.State">
+            <summary>
+            El estado del comando.
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.OfrecerServicioHandler.#ctor(Ucu.Poo.TelegramBot.BaseHandler)">
+            <summary>
+            Esta clase procesa el mensaje "Ofrecer servicio".
+            </summary>
+            <param name="next">El próximo "handler".</param>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.OfrecerServicioHandler.CanHandle(Telegram.Bot.Types.Message)">
+            <summary>
+            Determina si es responsabilidad de este handler el responder el mensaje. 
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.OfrecerServicioHandler.InternalHandle(Telegram.Bot.Types.Message,System.String@)">
+            <summary>
+            Este handler es el encargado de crear ofertas de servicio. Chequea los datos del servicio que ingresa el usuario y, en caso
+            de que esten correctos, crea el servicio. 
+            </summary>
+            <param name="message"></param>
+            <param name="response"></param>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.OfrecerServicioHandler.InternalCancel">
+            <summary>
+            Retorna este "handler" al estado inicial.
+            </summary>
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.OfrecerServicioHandler.ServicioState">
+            <summary>
+            Posibles estados del Handler.
+            </summary>
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.OfrecerServicioHandler.ServicioState.Start">
+            Estado inicial. 
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.OfrecerServicioHandler.ServicioState.Checking">
+            Estado de chequeo del mensaje que ingresó el usuario. 
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.OfrecerServicioHandler.ServicioState.Completed">
+            Estado de proceso completado. 
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.UserHandler">
+            <summary>
+            Un "handler" del patrón Chain of Responsibility que implementa el comando "distancia".
+            </summary>
+        </member>
+        <member name="P:Ucu.Poo.TelegramBot.UserHandler.State">
+            <summary>
+            El estado del comando.
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.UserHandler.#ctor(Ucu.Poo.TelegramBot.BaseHandler)">
+            <summary>
+            Este handler responde al comando "Ingresar".
+            </summary>
+            <param name="next"></param>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.UserHandler.CanHandle(Telegram.Bot.Types.Message)">
+            <summary>
+            El CanHandle se encarga de chequear si el handler es el encargado de responder al mensaje. 
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.UserHandler.InternalHandle(Telegram.Bot.Types.Message,System.String@)">
+            <summary>
+            Procesa todos los mensajes y retorna true siempre.
+            </summary>
+            <param name="message">El mensaje a procesar.</param>
+            <param name="response">La respuesta al mensaje procesado indicando que el mensaje no pudo se procesado.</param>
+            <returns>true si el mensaje fue procesado; false en caso contrario.</returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.UserHandler.InternalCancel">
+            <summary>
+            Retorna este "handler" al estado inicial.
+            </summary>
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.UserHandler.UserState">
+            <summary>
+            Posibles estados del Handler. 
+            </summary>
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.UserHandler.UserState.Start">
+            Estado inicial. 
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.UserHandler.UserState.EvaluarPrompt">
+            Evalua condiciones. 
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.UserHandler.UserState.AddTrabajadorPrompt">
+            Estado que agrega trabajador.
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.UserHandler.UserState.AddEmpleadorPrompt">
+            Estado que agrega empleador. 
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.VerCalificacionHandler">
+            <summary>
+            Un "handler" del patrón Chain of Responsibility que implementa el comando necesario para conocer las notificaciones del usuario.
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.VerCalificacionHandler.#ctor(Ucu.Poo.TelegramBot.BaseHandler)">
+            <summary>
+            Esta clase procesa el mensaje "Ver calificación".
+            </summary>
+            <param name="next">El próximo "handler".</param>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.VerCalificacionHandler.InternalHandle(Telegram.Bot.Types.Message,System.String@)">
+            <summary>
+            El handler se encarga de ver la calificación del empleador o del trabajador según los servicios realizados.
+            Para calcular la calificación, chequea de que clase es el usuario que llamó al comando.
+            En caso de no tener calificaciones, devuelve un mensaje de que el usuario no tiene calificaciones. 
+            </summary>
+            <param name="message"></param>
+            <param name="response"></param>
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.VerContratosHandler">
+            <summary>
+            Un "handler" del patrón Chain of Responsibility que implementa el comando "distancia".
+            </summary>
+        </member>
+        <member name="P:Ucu.Poo.TelegramBot.VerContratosHandler.State">
+            <summary>
+            El estado del comando.
+            </summary>
+        </member>
+        <member name="P:Ucu.Poo.TelegramBot.VerContratosHandler.Data">
+            <summary>
+            Los datos que va obteniendo el comando en los diferentes estados.
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.VerContratosHandler.#ctor(Ucu.Poo.TelegramBot.BaseHandler)">
+            <summary>
+            Inicializa una nueva instancia de la clase <see cref="T:Ucu.Poo.TelegramBot.CrearCategoriaHandler"/>.
+            </summary>
+            <param name="next">El próximo "handler".</param>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.VerContratosHandler.CanHandle(Telegram.Bot.Types.Message)">
+            <summary>
+            Determina si este "handler" puede procesar el mensaje. En el primer mensaje cuando
+            <see cref="P:Ucu.Poo.TelegramBot.VerContratosHandler.State"/> es <see cref="F:Ucu.Poo.TelegramBot.VerContratosHandler.VerContratosState.Start"/> usa
+            <see cref="P:Ucu.Poo.TelegramBot.BaseHandler.Keywords"/> para buscar el texto en el mensaje ignorando mayúsculas y minúsculas. En
+            caso contrario eso implica que los sucesivos mensajes son parámetros del comando y se procesan siempre.
+            </summary>
+            <param name="message">El mensaje a procesar.</param>
+            <returns>true si el mensaje puede ser pocesado; false en caso contrario.</returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.VerContratosHandler.InternalHandle(Telegram.Bot.Types.Message,System.String@)">
+            <summary>
+            Procesa todos los mensajes y retorna true siempre.
+            </summary>
+            <param name="message">El mensaje a procesar.</param>
+            <param name="response">La respuesta al mensaje procesado indicando que el mensaje no pudo se procesado.</param>
+            <returns>true si el mensaje fue procesado; false en caso contrario.</returns>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.VerContratosHandler.InternalCancel">
+            <summary>
+            Retorna este "handler" al estado inicial.
+            </summary>
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.VerContratosHandler.VerContratosState">
+            <summary>
+            Indica los diferentes estados que puede tener el comando DistanceHandler.
+            - Start: El estado inicial del comando. En este estado el comando pide la dirección de origen y pasa al
+            siguiente estado.
+            - FromAddressPrompt: Luego de pedir la dirección de origen. En este estado el comando pide la dirección de
+            destino y pasa al siguiente estado.
+            - ToAddressPrompt: Luego de pedir la dirección de destino. En este estado el comando calcula la distancia
+            y vuelve al estado Start.
+            </summary>
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.VerContratosHandler.VerContratosState.Start">
+            Start
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.VerContratosHandler.VerContratosState.EvaluarPrompt">
+            EvaluarPrompt
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.VerContratosHandler.VerContratosState.AddTrabajadorPrompt">
+            AddTrabajadorPrompt
+        </member>
+        <member name="F:Ucu.Poo.TelegramBot.VerContratosHandler.VerContratosState.AddEmpleadorPrompt">
+            AddEmpleadorPrompt
+        </member>
+        <member name="T:Ucu.Poo.TelegramBot.VerServiciosHandler">
+            <summary>
+            Un "handler" del patrón Chain of Responsibility que implementa el comando "distancia".
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.VerServiciosHandler.#ctor(Ucu.Poo.TelegramBot.BaseHandler)">
+            <summary>
+             Este handler responde al comando de "Ver mis servicios".
+            </summary>
+            <param name="next"></param>
+        </member>
+        <member name="M:Ucu.Poo.TelegramBot.VerServiciosHandler.InternalHandle(Telegram.Bot.Types.Message,System.String@)">
+            <summary>
+            El handler se encarga de chequear los servicios ofrecidos por un trabajador en específico. 
+            </summary>
+            <param name="message"></param>
+            <param name="response"></param>
+        </member>
+        <member name="T:Proyecto.Calificacion">
+            <summary>
+             Clase calificación. 
+            </summary>
+        </member>
+        <member name="P:Proyecto.Calificacion.Comentario">
+            <summary>
+             Propiedad comentario. Hace referencía a una descripción o review. 
+            </summary>
+        </member>
+        <member name="P:Proyecto.Calificacion.Valoracion">
+            <summary>
+             Propiedad valoración. La valoración va desde 1 estrella a 5. 
+            </summary>
+        </member>
+        <member name="M:Proyecto.Calificacion.#ctor(System.Int32,System.String)">
+            <summary>
+             Constructor de la clase Calificación. Cada calificación (1-5 estrellas) va acompañada de un comentario. 
+            </summary>
+        </member>
+        <member name="T:Proyecto.UtilidadesCalificacion">
+            <summary>
+             Clase calificación. 
+            </summary>
+        </member>
+        <member name="M:Proyecto.UtilidadesCalificacion.CalcularCalificacion(Proyecto.ICalificable)">
+            <summary>
+            Calcula la calificacion de los objetos de tipo ICalificable
+            </summary>
+            <param name="calificable"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Proyecto.UtilidadesCalificacion.CalificarEmpleador(Proyecto.Empleador,System.Int32,System.String)">
+            <summary>
+            Metodo para calificar un Empleador
+            </summary>
+            <param name="empleador"></param>
+            <param name="valoracion"></param>
+            <param name="comentario"></param>
+        </member>
+        <member name="M:Proyecto.UtilidadesCalificacion.CalificarServicio(Proyecto.Servicio,System.Int32,System.String)">
+            <summary>
+            Metodo para calificar un Servicio
+            </summary>
+            <param name="servicio"></param>
+            <param name="valoracion"></param>
+            <param name="comentario"></param>
+        </member>
+        <member name="M:Proyecto.UtilidadesCalificacion.CalificacionNeutra(Proyecto.Contrato)">
+            <summary>
+            Despues de un periodo de un mes de finaliazado el contrato, se califica de forma neutra a ambas partes del contrato
+            </summary>
+        </member>
+        <member name="T:Proyecto.CatalogoContrato">
+            <summary>
+             Clase
+            </summary>
+        </member>
+        <member name="F:Proyecto.CatalogoContrato.ListaContrato">
+            <summary>
+            Lista de los contratos existentes.
+            </summary>
+        </member>
+        <member name="M:Proyecto.CatalogoContrato.CrearContrato(Proyecto.Empleador,Proyecto.Servicio)">
+            <summary>
+            Crea una instancia de tipo Contrato, pasandole el empleador y servicio que estarán asociados al mismo, para posteriormente
+            agregarla a la lista de contratos pendientes del trabajador
+            </summary>
+            <param name="empleador"></param>
+            <param name="servicio"></param>
+            
+            ESTO ES CREATOR
+        </member>
+        <member name="M:Proyecto.CatalogoContrato.AceptarContrato(Proyecto.Contrato)">
+            <summary>
+            Ingresa un True si acpeta el contrato o de lo contrario un False
+            </summary>
+            <param name="contrato"></param>
+            
+            
+        </member>
+        <member name="M:Proyecto.CatalogoContrato.FinalizarContrato(Proyecto.Contrato)">
+            <summary>
+            Metodo para finalizar un contrato
+            </summary>
+            <param name="contrato"></param>
+        </member>
+        <member name="M:Proyecto.CatalogoContrato.ContratosPendientes(Proyecto.UsuarioComun)">
+            <summary>
+            Retorna una lista de los contratos pendientes asociados a determinado usuario.
+            </summary>
+            <param name="usuario"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Proyecto.CatalogoContrato.ContratosEnCurso(Proyecto.UsuarioComun)">
+            <summary>
+            Retorna una lista de los contratos en curso asociados a determinado usuario.
+            </summary>
+            <param name="usuario"></param>
+            <returns></returns>
+            EXPERT
+        </member>
+        <member name="M:Proyecto.CatalogoContrato.ContratosFinalizados(Proyecto.UsuarioComun)">
+            <summary>
+            Retorna una lista de los contratos finalizados asociados a determinado usuario.
+            </summary>
+            <param name="usuario"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Proyecto.CatalogoContrato.GuardarEnJson">
+            <summary>
+            Guarda la lista de contratos en una persistencia en formato JSon
+            </summary>
+        </member>
+        <member name="M:Proyecto.CatalogoContrato.CargarDesdeJson">
+            <summary>
+            Carga a la lista de contratos los datos que estan dentro del archivo JSon
+            </summary>
+        </member>
+        <member name="T:Proyecto.Contrato">
+            <summary>
+             Cada contrato tiene un Servicio por el cual se creará un contrato. 
+            </summary>
+        </member>
+        <member name="P:Proyecto.Contrato.ContratoID">
+            <summary>
+            ID del contrato
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Proyecto.Contrato.Servicio">
+            <summary>
+            Cada contrato tiene un Servicio por el cual se creará un contrato. 
+            </summary>
+        </member>
+        <member name="P:Proyecto.Contrato.Partes">
+            <summary>
+            Diccionario que contiene las dos partes del contrato (dos usuarios comunes, empleador/trabajador)
+            </summary>
+        </member>
+        <member name="P:Proyecto.Contrato.Estado">
+            <summary>
+             Cada contrato tiene un empleador que se vinculará con el servicio a contratar en el constructor de clase Contrato. 
+            </summary>
+        </member>
+        <member name="P:Proyecto.Contrato.FechaInicio">
+            <summary>
+            Fecha de inicio del contrato
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Proyecto.Contrato.FechaFin">
+            <summary>
+            Fecha de fin del contrato
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Proyecto.Contrato.#ctor(Proyecto.Servicio,Proyecto.Empleador)">
+            <summary>
+             Constructor de la clase Contrato. Se le pasa como parametro un servicio y un empleador. El empleador es quien quiere el servicio y desea contratarlo. 
+            </summary>
+        </member>
+        <member name="T:Proyecto.ICalificable">
+            <summary>
+             Interfaz publica ICalificacion
+            </summary>
+        </member>
+        <member name="P:Proyecto.ICalificable.Calificaciones">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Proyecto.IDistanciable">
+            <summary>
+             Interfaz publica ICalificacion
+            </summary>
+        </member>
+        <member name="P:Proyecto.IDistanciable.Ubicacion">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Proyecto.CatalogoCategoria">
+            <summary>
+            Clase CatalogoCategoria encargada de administrar la lista de categoría, agregar una categoria en la misma y de chequear
+            si existe o no una categoría.
+            </summary>
+        </member>
+        <member name="F:Proyecto.CatalogoCategoria.ListaCategoria">
+            <summary>
+            ListaCategoria almacena todas las categorías existentes.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Proyecto.CatalogoCategoria.AgregarCategoria(System.String)">
+            <summary>
+            Método para agregar categorías. Unicamente la agregará en caso de que no exista
+            una con el mismo nombre dentro de la lista de las categorías. 
+            </summary>
+            <param name="categoria"></param>
+        </member>
+        <member name="M:Proyecto.CatalogoCategoria.ExistenciaCategoria(System.String)">
+            <summary>
+            Método que comprueba la existencia de una categoría dentro de la lista de categorías. 
+            </summary>
+            <param name="categoria"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Proyecto.CatalogoCategoria.GuardarEnJson">
+            <summary>
+            Guarda la lista de categorias en una persistencia en formato JSon
+            </summary>
+        </member>
+        <member name="M:Proyecto.CatalogoCategoria.CargarDesdeJson">
+            <summary>
+            Carga a la lista de categorias los datos que estan dentro del archivo JSon
+            </summary>
+        </member>
+        <member name="T:Proyecto.CatalogoServicio">
+            <summary>
+            Clase CatalogoServicio encargada de agregar servicios y de eliminarlos de una lista de servicios.
+            </summary>
+        </member>
+        <member name="F:Proyecto.CatalogoServicio.ListaServicio">
+            <summary>
+            Lista donde se guardan los servicios. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Proyecto.CatalogoServicio.BorrarServicio(Proyecto.Servicio)">
+            <summary>
+            Método para borrar servicios de la lista de servicios. 
+            </summary>
+            <param name="servicio"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Proyecto.CatalogoServicio.OfrecerServicio(System.String,System.String,System.String,System.Double,Proyecto.Trabajador,System.String)">
+            <summary>
+            El método OfrecerServicio se le pasa por parametro todas las propiedades del Servicio, y adentro del método se crea
+            una instancia de la clase Servicio y se agrega inmediatamente al catálogo de servicios. 
+            </summary>
+            <param name="categoria"></param>
+            <param name="nombreServicio"></param>
+            <param name="descrServicio"></param>
+            <param name="precioServicio"></param>
+            <param name="trabajadorProveedor"></param>
+            <param name="ubicacion"></param>
+        </member>
+        <member name="M:Proyecto.CatalogoServicio.ServiciosOfrecidos(Proyecto.Trabajador)">
+            <summary>
+            Devuelve los servicios ofrecidos por determinado trabajador
+            </summary>
+            <param name="trabajador"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Proyecto.CatalogoServicio.BuscarServicioSinCategoria(Proyecto.Empleador)">
+            <summary>
+            Filtra la lista de servicios por reputacion y ubicacion
+            </summary>
+            <param name="empleador"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Proyecto.CatalogoServicio.BuscarServicioPorCategoria(System.String,Proyecto.Empleador)">
+            <summary>
+            Filtra servicios por categoria, reputacion y distancia al empleador.
+            </summary>
+            <param name="categoria"></param>
+            <param name="empleador"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Proyecto.CatalogoServicio.BuscarServicioSinFiltro">
+            <summary>
+            Devuelve toda la lista de servicios sin ordenar
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Proyecto.CatalogoServicio.GuardarEnJson">
+            <summary>
+            Guarda la lista de servicios en una persistencia en formato JSon
+            </summary>
+        </member>
+        <member name="M:Proyecto.CatalogoServicio.CargarDesdeJson">
+            <summary>
+            Carga a la lista de servicios los datos que estan dentro del archivo JSon
+            </summary>
+        </member>
+        <member name="T:Proyecto.Servicio">
+            <summary>
+            Clase Servicio
+            </summary>
+        </member>
+        <member name="P:Proyecto.Servicio.Categoria">
+            <summary>
+            Propiedad que indica la categoría del servicio. 
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Proyecto.Servicio.Nombre">
+            <summary>
+            Propiedad que indica el nombre del servicio. 
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Proyecto.Servicio.Descr">
+            <summary>
+            Propiedad que describe el Servicio. 
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Proyecto.Servicio.Precio">
+            <summary>
+            Propiedad que muestra el precio del servicio. 
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Proyecto.Servicio.TrabajadorProveedor">
+            <summary>
+            Necesitamos un trabajador de la clase Trabajador para unir servicio con quien lo ofrece. 
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Proyecto.Servicio.ServicioID">
+            <summary>
+            Cada servicio tiene un ID única para lograr identificar servicios dentro de los métodos en la lógica. 
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Proyecto.Servicio.Ubicacion">
+            <summary>
+            Propiedad Ubicacion será utilizada para conectar personas con servicios según la ubicación. 
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Proyecto.Servicio.Calificaciones">
+            <summary>
+            Calificaciones del Servicio
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Proyecto.Servicio.#ctor(System.String,System.String,System.String,System.Double,Proyecto.Trabajador,System.String)">
+            <summary>
+            Constructor de la clase Servicio. 
+            </summary>
+            <param name="categoria"></param>
+            <param name="nombre"></param>
+            <param name="descr"></param>
+            <param name="precio"></param>
+            <param name="trabajadorProveedor"></param>
+            <param name="ubicacion"></param>
+        </member>
+        <member name="T:Proyecto.Administrador">
+            <summary>
+             Clase administrador encargada de borrar servicios y crear categorías. 
+            </summary>
+        </member>
+        <member name="M:Proyecto.Administrador.#ctor(System.String,System.Int32)">
+            <summary>
+             Constructor de la clase Administrador 
+            </summary>
+        </member>
+        <member name="T:Proyecto.Empleador">
+            <summary>
+             Clase Empleador implementa UsuarioComun e ICalificacion. 
+            </summary>
+        </member>
+        <member name="P:Proyecto.Empleador.Calificaciones">
+            <summary>
+            Calificaciones del empleador
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Proyecto.Empleador.Ubicacion">
+            <summary>
+             Propiedad Ubicacion. El empleador tiene una ubicación determinada que será utilizada luego para filtrar servicios por proximidad. 
+            </summary>
+        </member>
+        <member name="M:Proyecto.Empleador.#ctor(System.String,System.Int32,System.String,System.String,System.String,System.Int32,System.String,System.String,System.Int32)">
+            <summary>
+             Constructor de la clase Empleador. 
+            </summary>
+        </member>
+        <member name="T:Proyecto.GestionUsuario">
+            <summary>
+             Clase gestión usuario. 
+            </summary>
+        </member>
+        <member name="F:Proyecto.GestionUsuario.Usuarios">
+            <summary>
+            Lista de los usuarios comunes del sistema
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:Proyecto.GestionUsuario.Administradores">
+            <summary>
+            Lista de los administradores del sistema
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Proyecto.GestionUsuario.CrearTrabajador(System.String,System.Int32,System.String,System.String,System.String,System.Int32,System.String,System.Int32)">
+            <summary>
+            Método para crear un objeto de tipo Trabajador y agregarlo a la lista de usuarios
+            </summary>
+            <param name="username"></param>
+            <param name="cedula"></param>
+            <param name="nombre"></param>
+            <param name="apellido"></param>
+            <param name="genero"></param>
+            <param name="celular"></param>
+            <param name="mail"></param>
+            /// <param name="id"></param>
+        </member>
+        <member name="M:Proyecto.GestionUsuario.CrearAdmin(System.String,System.Int32)">
+            <summary>
+            Crea una instancia de administrador
+            </summary>
+            <param name="username"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Proyecto.GestionUsuario.CrearEmpleador(System.String,System.Int32,System.String,System.String,System.String,System.Int32,System.String,System.String,System.Int32)">
+            <summary>
+            Crea un Empleador y lo agrega a la lista de usuarios
+            </summary>
+            <param name="username"></param>
+            <param name="cedula"></param>
+            <param name="nombre"></param>
+            <param name="apellido"></param>
+            <param name="genero"></param>
+            <param name="celular"></param>
+            <param name="mail"></param>
+            <param name="ubicacion"></param>
+            <param name="id"></param>
+        </member>
+        <member name="M:Proyecto.GestionUsuario.NotificarUsuario(Proyecto.UsuarioComun,System.String)">
+            <summary>
+            Método que notifica al usuario. Agrega el mensaje a la lista de notificaciones del usuario. 
+            </summary>
+            <param name="usuario"></param>
+            <param name="mensaje"></param>
+        </member>
+        <member name="M:Proyecto.GestionUsuario.EsTrbajadorID(System.Int32)">
+            <summary>
+            Verifica si el objeto que contiene la id es de tipo Trabajador
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Proyecto.GestionUsuario.EsEmpleadorID(System.Int32)">
+            <summary>
+            Verifica si el objeto que contiene la id es de tipo Empleador
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Proyecto.GestionUsuario.EsAdminID(System.Int32)">
+            <summary>
+            Verifica si el objeto que contiene la id es de tipo Administrador
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Proyecto.GestionUsuario.GuardarEnJson">
+            <summary>
+            Guarda la lista de usuarios en una persistencia en formato JSon
+            </summary>
+        </member>
+        <member name="M:Proyecto.GestionUsuario.CargarDesdeJson">
+            <summary>
+            Carga a la lista de usuarios los datos que estan dentro del archivo JSon
+            </summary>
+        </member>
+        <member name="T:Proyecto.Notificaciones">
+            <summary>
+            Clase Notificaciones
+            </summary>
+        </member>
+        <member name="M:Proyecto.Notificaciones.Notificacion_BorrarServicio(Proyecto.Servicio)">
+            <summary>
+            El método Notificacion_BorrarServicio esta encargado de mandarle al Trabajador (es identificado mediante una propiedad ID del mismo)
+            y le avisa que un servicio ha sido eliminado, para saber cual fue el eliminado, el trabajador recibe el ID del servicio. 
+            </summary>
+            <param name="servicio"></param>
+        </member>
+        <member name="T:Proyecto.Trabajador">
+            <summary>
+             Clase Trabajador implementa UsuarioComun e ICalificacion
+            </summary>
+        </member>
+        <member name="M:Proyecto.Trabajador.#ctor(System.String,System.Int32,System.String,System.String,System.String,System.Int32,System.String,System.Int32)">
+            <summary>
+             Constructor de la clase Trabajador
+            </summary>
+        </member>
+        <member name="T:Proyecto.Usuario">
+            <summary>
+             Clase Usuario. 
+            </summary>
+        </member>
+        <member name="P:Proyecto.Usuario.ID">
+            <summary>
+            ID del usuario (se extrae del Chat ID de telegram)
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Proyecto.Usuario.Username">
+            <summary>
+             Cada usuario tiene un Username característico. 
+            </summary>
+        </member>
+        <member name="M:Proyecto.Usuario.#ctor(System.String,System.Int32)">
+            <summary>
+             Constructor de la clase Usuario. 
+            </summary>
+        </member>
+        <member name="T:Proyecto.UsuarioComun">
+            <summary>
+             Clase UsuarioComun implementa la clase Usuario. 
+            </summary>
+        </member>
+        <member name="P:Proyecto.UsuarioComun.Cedula">
+            <summary>
+             Cédula del usuario. 
+            </summary>
+        </member>
+        <member name="P:Proyecto.UsuarioComun.Nombre">
+            <summary>
+             Nombre del usuario. 
+            </summary>
+        </member>
+        <member name="P:Proyecto.UsuarioComun.Apellido">
+            <summary>
+             Apellido del usuario. 
+            </summary>
+        </member>
+        <member name="P:Proyecto.UsuarioComun.Genero">
+            <summary>
+             Género del usuario. 
+            </summary>
+        </member>
+        <member name="P:Proyecto.UsuarioComun.Celular">
+            <summary>
+             Celular del usuario.
+            </summary>
+        </member>
+        <member name="P:Proyecto.UsuarioComun.Mail">
+            <summary>
+             Mail del usuario. 
+            </summary>
+        </member>
+        <member name="F:Proyecto.UsuarioComun.Notificaciones">
+            <summary>
+            Lista de mensajes que le han enviado al usuario. Ejemplo de implementación es cuando le envian una notificación porque le borraron un 
+            servicio que el estaba ofreciendo en el catálogo de servicios. 
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Proyecto.UsuarioComun.#ctor(System.String,System.Int32,System.String,System.String,System.String,System.Int32,System.String,System.Int32)">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="T:Proyecto.CalculadorDistancia">
+            <summary>
+            Clase para calcular distancias
+            </summary>
+        </member>
+        <member name="M:Proyecto.CalculadorDistancia.CalcularDistancia(Proyecto.IDistanciable,Proyecto.IDistanciable)">
+            <summary>
+            Calcula las distancias entre los parametros de ubicacion (string) de dos objetos IDistanciable
+            </summary>
+            <param name="distanciable1"></param>
+            <param name="distanciable2"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Proyecto.Estado">
+            <summary>
+            Clase Estado
+            </summary>
+        </member>
+        <member name="F:Proyecto.Estado.OpcionEstados">
+            <summary>
+            Array con los estados posibles en los que puede estar el objeto
+            </summary>
+            <value></value>
+        </member>
+        <member name="F:Proyecto.Estado.EstadoActual">
+            <summary>
+            El estado actual del objeto
+            </summary>
+        </member>
+        <member name="M:Proyecto.Estado.#ctor">
+            <summary>
+            Constructor de la clase
+            </summary>
+        </member>
+        <member name="M:Proyecto.Estado.Pendiente">
+            <summary>
+            Metodo para cambiar el estado a "Pendiente"
+            </summary>
+        </member>
+        <member name="M:Proyecto.Estado.EnCurso">
+            <summary>
+            Metodo para cambiar el estado a "En curso"
+            </summary>
+        </member>
+        <member name="M:Proyecto.Estado.Terminado">
+            <summary>
+            Metodo para cambiar el estado a "Terminado"
+            </summary>
+        </member>
+        <member name="T:Proyecto.IDGenerator">
+            <summary>
+            Clase IDGenerator, encargada de generar ID´s.
+            </summary>
+        </member>
+        <member name="M:Proyecto.IDGenerator.ServicioIDGenerator">
+            <summary>
+            Método para crear ID únicos para cada servicio. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Proyecto.IDGenerator.ContratoIDGenerator">
+            <summary>
+            Método para crear ID únicos para cada contrato. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Proyecto.Singleton`1">
+            <summary>
+            Clase Singleton. 
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Proyecto.Singleton`1.Instance">
+            <summary>
+            "Constructor" de clase singleton
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Proyecto.Singleton`1.resetForTesting">
+            <summary>
+            Resetea la intancia singleton (se utiliza en los test)
+            </summary>
+        </member>
+        <member name="P:ExceptionCategoryExistence.CAT">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:ExceptionCategoryExistence.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ExceptionCategoryExistence.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:ExceptionCategoryExistence.#ctor(System.String,System.Exception)">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+            <param name="inner"></param>
+        </member>
+        <member name="M:ExceptionCategoryExistence.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+            <param name="cat"></param>
+        </member>
+        <member name="P:ExceptionCILarge.CI">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:ExceptionCILarge.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ExceptionCILarge.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:ExceptionCILarge.#ctor(System.String,System.Exception)">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+            <param name="inner"></param>
+        </member>
+        <member name="M:ExceptionCILarge.#ctor(System.String,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+            <param name="cI"></param>
+        </member>
+    </members>
+</doc>

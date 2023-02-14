@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="es">
+  <compounddef id="_r_e_a_d_m_e_8md" kind="file" language="Markdown">
+    <compoundname>README.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Desafíos<sp/>que<sp/>se<sp/>nos<sp/>presentaron<sp/>en<sp/>esta<sp/>entrega</highlight></codeline>
+<codeline><highlight class="normal"><sp/>-----------------------------------------------</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Como<sp/>equipo<sp/>se<sp/>nos<sp/>plantearon<sp/>varios<sp/>desafíos<sp/>para<sp/>esta<sp/>entrega.<sp/>A<sp/>la<sp/>hora<sp/>de<sp/>empezar<sp/>a<sp/>programar<sp/>las<sp/>clases<sp/>que<sp/>habiamos<sp/>diseñado</highlight></codeline>
+<codeline><highlight class="normal">para<sp/>la<sp/>primera<sp/>entrega,<sp/>nos<sp/>encontramos<sp/>con<sp/>algunos<sp/>problemas<sp/>de<sp/>lógica<sp/>que<sp/>tuvimos<sp/>que<sp/>repensar<sp/>para<sp/>lograr<sp/>resolverlos,<sp/>y<sp/>otras<sp/>clases<sp/>tuvieron<sp/>que<sp/>ser<sp/>rediseñadas</highlight></codeline>
+<codeline><highlight class="normal">para<sp/>perfeccionarlas<sp/>con<sp/>las<sp/>correcciones<sp/>realizadas<sp/>por<sp/>los<sp/>docentes.<sp/></highlight></codeline>
+<codeline><highlight class="normal">Otro<sp/>gran<sp/>desafío<sp/>que<sp/>se<sp/>nos<sp/>planteo<sp/>fue<sp/>distribuir<sp/>la<sp/>cantidad<sp/>de<sp/>tarea<sp/>para<sp/>que<sp/>quede<sp/>parejo<sp/>y<sp/>acorde<sp/>con<sp/>las<sp/>virtudes<sp/>de<sp/>cada<sp/>integrante<sp/>al<sp/>momento<sp/>de<sp/>programar.</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Principios</highlight></codeline>
+<codeline><highlight class="normal">-----------------------------------------------</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">######<sp/>CREATOR</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">El<sp/>principio<sp/>se<sp/>ve<sp/>reflejado<sp/>a<sp/>la<sp/>hora<sp/>de<sp/>crear<sp/>nuestras<sp/>clases.<sp/></highlight></codeline>
+<codeline><highlight class="normal">En<sp/>la<sp/>clase<sp/>gestión<sp/>contrato,<sp/>a<sp/>la<sp/>hora<sp/>de<sp/>utilizar<sp/>el<sp/>método<sp/>CrearContrato(),<sp/>adentro<sp/>del<sp/>mismo<sp/>crea<sp/>un<sp/>objeto<sp/>de<sp/>tipo<sp/>contrato.</highlight></codeline>
+<codeline><highlight class="normal">Otro<sp/>ejemplo<sp/>de<sp/>este<sp/>principio<sp/>reflejado<sp/>en<sp/>nuestras<sp/>clases<sp/>es<sp/>en<sp/>el<sp/>método<sp/>OfrecerServicio()<sp/>del<sp/>trabajado.<sp/>El<sp/>trabajador<sp/>tiene<sp/>un<sp/>método<sp/>por<sp/>el<sp/>cual<sp/>puede<sp/>ofrecer<sp/>un<sp/>servicio,<sp/>y<sp/>este<sp/>se<sp/>encarga<sp/>de<sp/>crear<sp/>un<sp/>objeto<sp/>de<sp/>tipo<sp/>servicio.<sp/></highlight></codeline>
+<codeline><highlight class="normal">GestionUsuario<sp/>presenta<sp/>un<sp/>método<sp/>para<sp/>crear<sp/>empleadores<sp/>llamado<sp/>CrearEmpleador()<sp/>que<sp/>se<sp/>encarga<sp/>de<sp/>crear<sp/>un<sp/>objeto<sp/>de<sp/>tipo<sp/>Empleador<sp/>con<sp/>los<sp/>datos<sp/>pasados<sp/>por<sp/>parametro.<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">######<sp/>SRP<sp/>y<sp/>EXPERT<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">La<sp/>lógica<sp/>fue<sp/>diseñada<sp/>en<sp/>base<sp/>a<sp/>que<sp/>las<sp/>clases<sp/>no<sp/>tuvieran<sp/>más<sp/>de<sp/>una<sp/>responsabilidad.<sp/>El<sp/>crear<sp/>varias<sp/>clases<sp/>nos<sp/>permitió<sp/>delegar<sp/>responsabilidades<sp/>y<sp/>que<sp/>no<sp/>queden<sp/>sobrecargadas<sp/>de<sp/>responsabilidades<sp/>de<sp/>las<sp/>cuales<sp/>no<sp/>deben<sp/>hacerse<sp/>responsables.<sp/></highlight></codeline>
+<codeline><highlight class="normal">Hay<sp/>varios<sp/>ejemplos<sp/>a<sp/>lo<sp/>largo<sp/>de<sp/>la<sp/>lógica<sp/>utilizada,<sp/>uno<sp/>es<sp/>la<sp/>clase<sp/>CatalogoCategoría,<sp/>que<sp/>se<sp/>encarga<sp/>de<sp/>verificar<sp/>que<sp/>exista<sp/>cierta<sp/>categoría<sp/>dentro<sp/>de<sp/>las<sp/>existentes,<sp/>o<sp/>de<sp/>lo<sp/>contrario,<sp/>tambien<sp/>se<sp/>encarga<sp/>de<sp/>añadir<sp/>categorías<sp/>al<sp/>catálogo.<sp/>Estas<sp/>responsabilidades<sp/>no<sp/>pueden<sp/>pertenecer<sp/>al<sp/>admin,<sp/>a<sp/>pesar<sp/>de<sp/>que<sp/>el<sp/>es<sp/>el<sp/>encargado<sp/>de<sp/>controlar<sp/>que<sp/>categorías<sp/>se<sp/>deben<sp/>añadir.<sp/></highlight></codeline>
+<codeline><highlight class="normal">Otro<sp/>ejemplo<sp/>es<sp/>el<sp/>de<sp/>catologo<sp/>servicio,<sp/>el<sp/>cual<sp/>se<sp/>encarga<sp/>de<sp/>agregar<sp/>o<sp/>borrar<sp/>servicios<sp/>de<sp/>la<sp/>lista<sp/>de<sp/>servicios<sp/>disponibles.<sp/>La<sp/>clase<sp/>servicio<sp/>no<sp/>puede<sp/>tener<sp/>la<sp/>responsabilidad<sp/>de<sp/>añadirse<sp/>a<sp/>si<sp/>misma<sp/>a<sp/>una<sp/>lista<sp/>de<sp/>servicios<sp/>disponibles,<sp/>asimismo,<sp/>servicio<sp/>unicamente<sp/>presenta<sp/>un<sp/>constructor,<sp/>el<sp/>cual<sp/>es<sp/>utilizado<sp/>en<sp/>Trabajador<sp/>para<sp/>cuando<sp/>quiere<sp/>ofrecer<sp/>un<sp/>servicio.<sp/></highlight></codeline>
+<codeline><highlight class="normal">Y<sp/>el<sp/>último<sp/>Catalogo<sp/>que<sp/>creamos<sp/>fue<sp/>Catálogo<sp/>Contrato.<sp/>El<sp/>cual<sp/>se<sp/>encarga<sp/>de<sp/>comprobar,<sp/>y<sp/>cambiar<sp/>estados<sp/>de<sp/>los<sp/>contratos.</highlight></codeline>
+<codeline><highlight class="normal">Estos<sp/>Catalalogos<sp/>son<sp/>los<sp/>encargados<sp/>de<sp/>realizar<sp/>dichas<sp/>acciones<sp/>previamente<sp/>debido<sp/>a<sp/>que<sp/>son<sp/>los<sp/>que<sp/>conocen<sp/>la<sp/>información<sp/>correspondiente<sp/>para<sp/>llevarlas<sp/>a<sp/>cabo.<sp/></highlight></codeline>
+<codeline><highlight class="normal">Previo<sp/>a<sp/>crearlos,<sp/>habíamos<sp/>analizado<sp/>dejarle<sp/>las<sp/>responsabilidades<sp/>previamente<sp/>mencionadas<sp/>a<sp/>las<sp/>clases<sp/>Servicio,<sp/>Contrato,<sp/>Categoría<sp/>fue<sp/>cambiando<sp/>de<sp/>nombre.</highlight></codeline>
+<codeline><highlight class="normal">Pero<sp/>pensandolo<sp/>bien,<sp/>resolvimos<sp/>en<sp/>conjunto<sp/>que<sp/>las<sp/>responsabilidades<sp/>de<sp/>conocer<sp/>dicho<sp/>estado<sp/>no<sp/>debía<sp/>ser<sp/>de<sp/>ellos,<sp/>no<sp/>nos<sp/>hacía<sp/>sentido<sp/>el<sp/>hecho<sp/>de<sp/>que<sp/>un<sp/>contrato</highlight></codeline>
+<codeline><highlight class="normal">deba<sp/>conocer<sp/>en<sp/>que<sp/>estado<sp/>se<sp/>encuentra,<sp/>pero<sp/>si<sp/>que<sp/>deje<sp/>que<sp/>su<sp/>estado<sp/>se<sp/>conozca<sp/>mediante<sp/>un<sp/>método<sp/>de<sp/>otra<sp/>clase.<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Siguiendo<sp/>con<sp/>SRP,<sp/>tenemos<sp/>las<sp/>clases:</highlight></codeline>
+<codeline><highlight class="normal">*Estado<sp/>:<sp/>Encargada<sp/>de<sp/>contener<sp/>estados,<sp/>que<sp/>utilizaremos<sp/>en<sp/>contratos<sp/>para<sp/>definir<sp/>en<sp/>que<sp/>estado<sp/>se<sp/>encuentra<sp/>cada<sp/>uno<sp/>.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*IDGenerator<sp/>:<sp/>Encargada<sp/>de<sp/>generar<sp/>ID´s<sp/>para<sp/>los<sp/>servicios<sp/>que<sp/>ofrecen<sp/>los<sp/>trabajadores.<sp/>Para<sp/>los<sp/>trabajadores<sp/>no<sp/>era<sp/>necesario<sp/>crear<sp/>ID´s<sp/>personales<sp/>porque<sp/></highlight></codeline>
+<codeline><highlight class="normal">no<sp/>las<sp/>proporciona<sp/>telegram.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">######<sp/>ISP</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Interface<sp/>Segregation<sp/>Principle<sp/>es<sp/>un<sp/>principio<sp/>que<sp/>nos<sp/>permite<sp/>delimitar<sp/>que<sp/>usuarios<sp/>pueden<sp/>ser<sp/>calificados.<sp/>Si<sp/>no<sp/>todo<sp/>iba<sp/>a<sp/>poder<sp/>ser<sp/>calificable,<sp/>sin<sp/>la<sp/>interfaz<sp/></highlight></codeline>
+<codeline><highlight class="normal">ICalificable<sp/>esto<sp/>no<sp/>podría<sp/>haberse<sp/>solucionado.<sp/>Esta<sp/>interfaz<sp/>contiene<sp/>una<sp/>lista<sp/>de<sp/>calificaciones,<sp/>la<sp/>cual<sp/>utilizamos<sp/>para<sp/>calcular<sp/>la<sp/>calificación<sp/>promediada<sp/></highlight></codeline>
+<codeline><highlight class="normal">gracias<sp/>a<sp/>todos<sp/>los<sp/>elementos<sp/>que<sp/>se<sp/>encuentran<sp/>en<sp/>ella.<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Patrones<sp/>de<sp/>diseño</highlight></codeline>
+<codeline><highlight class="normal">-----------------------------------------------</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">######<sp/>Singleton</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Es<sp/>un<sp/>patron<sp/>de<sp/>diseño<sp/>que<sp/>nos<sp/>permite<sp/>crear<sp/>una<sp/>única<sp/>instancia<sp/>de<sp/>una<sp/>clase.<sp/>En<sp/>nuestro<sp/>programa<sp/>tenemos<sp/>casos<sp/>donde<sp/>debemos<sp/>tener<sp/>una<sp/>única<sp/>lista<sp/>de<sp/>una<sp/>clase<sp/></highlight></codeline>
+<codeline><highlight class="normal">para<sp/>toda<sp/>la<sp/>lógica<sp/>y<sp/>que<sp/>esta<sp/>no<sp/>se<sp/>vea<sp/>afectada.<sp/>Para<sp/>utilizarlas,<sp/>utilizamos<sp/>instancias<sp/>del<sp/>singleton<sp/>de<sp/>la<sp/>clase<sp/>que<sp/>necesitamos.<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">######<sp/>Chain<sp/>of<sp/>responsability<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Para<sp/>los<sp/>handlers,<sp/>tendremos<sp/>una<sp/>solicitud<sp/>de<sp/>mensaje<sp/>donde<sp/>se<sp/>analizara<sp/>el<sp/>mensaje<sp/>emitido<sp/>por<sp/>el<sp/>usuario.<sp/>Según<sp/>lo<sp/>que<sp/>recibe,<sp/>el<sp/>mensaje<sp/>pasará<sp/>por<sp/>&quot;la<sp/>cadena&quot;<sp/></highlight></codeline>
+<codeline><highlight class="normal">donde<sp/>chequeará<sp/>en<sp/>&quot;cada<sp/>eslabon&quot;<sp/>si<sp/>corresponde<sp/>a<sp/>el<sp/>o<sp/>no<sp/>el<sp/>dar<sp/>una<sp/>respuesta<sp/>ese<sp/>mensaje.<sp/>Por<sp/>ejemplo,<sp/>en<sp/>el<sp/>menú<sp/>inicial<sp/>o<sp/>principal<sp/>tenemos<sp/>varias<sp/>opciones,<sp/>y,<sp/></highlight></codeline>
+<codeline><highlight class="normal">para<sp/>seleccionar<sp/>una<sp/>de<sp/>ellas,<sp/>el<sp/>usuario<sp/>debe<sp/>ingresar<sp/>mediante<sp/>un<sp/>mensaje<sp/>la<sp/>opción<sp/>que<sp/>desee<sp/>ejecutar.<sp/>El<sp/>programa<sp/>va<sp/>a<sp/>identificar<sp/>el<sp/>mensaje<sp/>que<sp/>fue<sp/>emitido,<sp/>y<sp/></highlight></codeline>
+<codeline><highlight class="normal">chequeará<sp/>en<sp/>los<sp/>handlers<sp/>a<sp/>cual<sp/>le<sp/>corresponde<sp/>ese<sp/>mensaje.<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-----------------------------------------------</highlight></codeline>
+<codeline><highlight class="normal">Contrato,<sp/>CatlogoContrato,<sp/>GestionUsuario<sp/>-Sofía<sp/>Guerrico</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Empleador,<sp/>Trabajador,<sp/>UsuarioComun,<sp/>Usuario,<sp/>Calificacion<sp/>-Ignacio<sp/>Berra</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Administrador<sp/>-Fernando<sp/>Sánchez</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">CatalogoServicio,<sp/>CatalogoCategoria,<sp/>FiltroBusqueda,<sp/>Notificaciones<sp/>-Ignacio<sp/>Tachini</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Vale<sp/>aclarar<sp/>que<sp/>por<sp/>más<sp/>que<sp/>las<sp/>clases<sp/>se<sp/>vean<sp/>asignadas<sp/>de<sp/>tal<sp/>modo,<sp/>aun<sp/>así<sp/>cada<sp/>integrante<sp/>interactuó<sp/>con<sp/>otras<sp/>más<sp/>ya<sp/>que<sp/>era<sp/>necesaria<sp/>su<sp/>manipulación<sp/>para<sp/>hacer<sp/>funcionar<sp/>sus<sp/>respectivas<sp/>clases</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Aclaraciones</highlight></codeline>
+<codeline><highlight class="normal">-----------------------------------------------</highlight></codeline>
+<codeline><highlight class="normal">Para<sp/>que<sp/>el<sp/>programa<sp/>funcione<sp/>correctamente,<sp/>se<sp/>necesita<sp/>tener<sp/>el<sp/>PII_LocationApiClient<sp/>una<sp/>carpeta<sp/>anterior<sp/>a<sp/>la<sp/>del<sp/>proyecto,<sp/>es<sp/>decir<sp/>como<sp/>una<sp/>carpeta<sp/>hermana.</highlight></codeline>
+<codeline></codeline>
+    </programlisting>
+    <location file="README.md"/>
+  </compounddef>
+</doxygen>
